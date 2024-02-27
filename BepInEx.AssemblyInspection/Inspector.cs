@@ -11,14 +11,14 @@ namespace BepInEx.AssemblyInspection
     public class Inspector
     {
         [JsonIgnore]
-        public IEnumerable<TypeDefinition> PluginTypes;
+        public readonly IEnumerable<TypeDefinition> PluginTypes;
         [JsonIgnore]
-        public IEnumerable<TypeDefinition> PatcherTypes;
-
+        public readonly IEnumerable<TypeDefinition> PatcherTypes;
+        
         public IEnumerable<string> Plugins => PluginTypes.Select(t => t.FullName);
         public IEnumerable<string> Patchers => PatcherTypes.Select(t => t.FullName);
-        public bool HasPlugins;
-        public bool HasPatchers;
+        public readonly bool HasPlugins;
+        public readonly bool HasPatchers;
 
         public Inspector(string filePath, IEnumerable<string> searchDirectories = null)
         {
