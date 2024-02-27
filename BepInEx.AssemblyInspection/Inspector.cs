@@ -1,4 +1,4 @@
-﻿using Mono.Cecil;
+using Mono.Cecil;
 using Mono.Cecil.Rocks;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -27,17 +27,17 @@ namespace BepInEx.AssemblyInspection
                 searchDirectories = Enumerable.Empty<string>();
             }
 
+            searchDirectories = Directory.GetDirectories(RuntimeEnvironment.GetRuntimeDirectory(), "*", SearchOption.AllDirectories)
+                .Concat(searchDirectories)
+                .Concat(new[] { Path.GetDirectoryName(filePath) })
+                .Distinct();
+
             using (var resolver = new DefaultAssemblyResolver())
             {
-                foreach (var dir in Directory.GetDirectories(RuntimeEnvironment.GetRuntimeDirectory(), "*", SearchOption.AllDirectories))
-                {
-                    resolver.AddSearchDirectory(dir);
-                }
                 foreach (var dir in searchDirectories)
                 {
                     resolver.AddSearchDirectory(dir);
                 }
-                resolver.AddSearchDirectory(Path.GetDirectoryName(filePath));
 
                 using (var assemblyDefinition = AssemblyDefinition.ReadAssembly(filePath, new ReaderParameters { AssemblyResolver = resolver }))
                 {
