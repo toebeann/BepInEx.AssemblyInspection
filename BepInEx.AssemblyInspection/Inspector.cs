@@ -1,4 +1,4 @@
-using Mono.Cecil;
+﻿using Mono.Cecil;
 using Mono.Cecil.Rocks;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -52,7 +52,7 @@ namespace BepInEx.AssemblyInspection
         public static IEnumerable<TypeDefinition> GetPluginTypes(AssemblyDefinition assemblyDefinition) =>
             assemblyDefinition.Modules
                 .SelectMany(m => m.GetAllTypes())
-                .Where(t => t.CustomAttributes.Any(a => a.AttributeType.FullName == typeof(BepInPlugin).FullName));
+                .Where(t => t.CustomAttributes.Select(a => a.AttributeType.FullName).Contains("BepInEx.BepInPlugin"));
 
         public static IEnumerable<TypeDefinition> GetPatcherTypes(AssemblyDefinition assemblyDefinition) =>
             assemblyDefinition.Modules
